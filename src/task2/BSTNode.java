@@ -1,5 +1,3 @@
-package task2;
-
 import java.util.*;
 
 public class BSTNode<T> {
