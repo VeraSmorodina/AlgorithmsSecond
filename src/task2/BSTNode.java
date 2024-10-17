@@ -9,8 +9,7 @@ public class BSTNode<T> {
     public BSTNode<T> LeftChild;
     public BSTNode<T> RightChild;
 
-    public BSTNode(int key, T val, BSTNode<T> parent)
-    {
+    public BSTNode(int key, T val, BSTNode<T> parent) {
         NodeKey = key;
         NodeValue = val;
         Parent = parent;
@@ -26,11 +25,12 @@ class BSTFind<T> {
 
     public boolean ToLeft;
 
-    public BSTFind() { Node = null; }
+    public BSTFind() {
+        Node = null;
+    }
 }
 
-class BST<T>
-{
+class BST<T> {
     BSTNode<T> Root;
 
     public BST(BSTNode<T> node) {
@@ -172,6 +172,7 @@ class BST<T>
     }
 
 
+//    Задание 1
     public boolean isIdentical(BST<T> otherTree) {
         return isIdentical(this.Root, otherTree.Root);
     }
@@ -188,5 +189,66 @@ class BST<T>
         }
         return isIdentical(node1.LeftChild, node2.LeftChild) &&
                 isIdentical(node1.RightChild, node2.RightChild);
+    }
+
+    //    Задание 2
+    public List<BSTNode<T>> findPathsOfLength(int length) {
+        List<BSTNode<T>> paths = new ArrayList<>();
+        findPathsOfLength(Root, new ArrayList<>(), paths, length);
+        return paths;
+    }
+
+    private void findPathsOfLength(BSTNode<T> currentNode, List<BSTNode<T>> currentPath,
+                                   List<BSTNode<T>> paths, int length) {
+        if (currentNode == null) return;
+        currentPath.add(currentNode);
+        if (currentNode.LeftChild == null && currentNode.RightChild == null && currentPath.size() == length) {
+                paths.addAll(new ArrayList<>(currentPath));
+        } else {
+            findPathsOfLength(currentNode.LeftChild, currentPath, paths, length);
+            findPathsOfLength(currentNode.RightChild, currentPath, paths, length);
+        }
+        currentPath.remove(currentPath.size() - 1);
+    }
+
+
+    //    Задание 3
+    public List<BSTNode<T>> findMaxSumPath() {
+        List<BSTNode<T>> maxPath = new ArrayList<>();
+        findMaxSumPath(Root, new ArrayList<>(), maxPath, 0);
+        return maxPath;
+    }
+
+    private void findMaxSumPath(BSTNode<T> currentNode, List<BSTNode<T>> currentPath,
+                                List<BSTNode<T>> maxPath, int currentSum) {
+        if (currentNode == null) return;
+        currentPath.add(currentNode);
+        if (currentNode.NodeValue instanceof Integer) {
+            currentSum += (Integer) currentNode.NodeValue;
+        } else {
+            currentSum += currentNode.NodeValue.hashCode();
+        }
+
+        if (currentNode.LeftChild == null && currentNode.RightChild == null && (maxPath.isEmpty() || currentSum > getCurrentMaxSum(maxPath))) {
+            maxPath.clear();
+            maxPath.addAll(new ArrayList<>(currentPath)); // Сохраняем новый путь
+        } else {
+            findMaxSumPath(currentNode.LeftChild, currentPath, maxPath, currentSum);
+            findMaxSumPath(currentNode.RightChild, currentPath, maxPath, currentSum);
+        }
+        currentPath.remove(currentPath.size() - 1);
+    }
+
+    // Метод для получения текущей максимальной суммы из пути
+    private double getCurrentMaxSum(List<BSTNode<T>> path) {
+        double sum = 0;
+        for (BSTNode<T> node : path) {
+            if (node.NodeValue instanceof Integer){
+                sum += (Integer)node.NodeValue;
+            }else {
+                sum += node.NodeValue.hashCode();
+            }
+        }
+        return sum;
     }
 }

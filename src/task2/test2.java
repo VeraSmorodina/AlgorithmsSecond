@@ -3,6 +3,9 @@ package task2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class test2 {
     @Test
@@ -269,18 +272,18 @@ public class test2 {
     public void isIdenticalTest1() {
         BSTNode<Integer> root = new BSTNode<>(0, 0, null);
         BST<Integer> bst = new BST<>(root);
-        bst.AddKeyValue(1,1);
-        bst.AddKeyValue(2,2);
+        bst.AddKeyValue(1, 1);
+        bst.AddKeyValue(2, 2);
         bst.AddKeyValue(3, 3);
-        bst.AddKeyValue(4,4);
+        bst.AddKeyValue(4, 4);
 
 
         BSTNode<Integer> root1 = new BSTNode<>(0, 0, null);
         BST<Integer> bst1 = new BST<>(root1);
-        bst1.AddKeyValue(1,1);
-        bst1.AddKeyValue(2,2);
+        bst1.AddKeyValue(1, 1);
+        bst1.AddKeyValue(2, 2);
         bst1.AddKeyValue(3, 3);
-        bst1.AddKeyValue(4,4);
+        bst1.AddKeyValue(4, 4);
 
         Assertions.assertTrue(bst.isIdentical(bst1));
         Assertions.assertTrue(bst.isIdentical(bst));
@@ -290,20 +293,55 @@ public class test2 {
     public void isIdenticalTest2() {
         BSTNode<Integer> root = new BSTNode<>(0, 0, null);
         BST<Integer> bst = new BST<>(root);
-        bst.AddKeyValue(1,1);
-        bst.AddKeyValue(2,2);
+        bst.AddKeyValue(1, 1);
+        bst.AddKeyValue(2, 2);
         bst.AddKeyValue(3, 3);
-        bst.AddKeyValue(4,4);
+        bst.AddKeyValue(4, 4);
 
 
         BSTNode<Integer> root1 = new BSTNode<>(0, 0, null);
         BST<Integer> bst1 = new BST<>(root1);
-        bst1.AddKeyValue(1,1);
-        bst1.AddKeyValue(2,2);
+        bst1.AddKeyValue(1, 1);
+        bst1.AddKeyValue(2, 2);
         bst1.AddKeyValue(3, 3);
-        bst1.AddKeyValue(5,5);
+        bst1.AddKeyValue(5, 5);
 
         Assertions.assertFalse(bst.isIdentical(bst1));
+    }
+
+    @Test
+    public void findPathsOfLengthTest1() {
+        BSTNode<Integer> root = new BSTNode<>(8, 0, null);
+        BST<Integer> bst = new BST<>(root);
+        bst.AddKeyValue(4, 12);
+        bst.AddKeyValue(2, 2);
+        bst.AddKeyValue(6, 3);
+        bst.AddKeyValue(5, 5);
+
+        List<BSTNode<Integer>> res = new ArrayList<>();
+        res.add(bst.Root);
+        res.add(bst.Root.LeftChild);
+        res.add(bst.Root.LeftChild.RightChild);
+        res.add(bst.Root.LeftChild.RightChild.LeftChild);
+
+        Assertions.assertEquals(res, bst.findPathsOfLength(4));
+    }
+
+    @Test
+    public void findMaxSumPathTest1() {
+        BSTNode<Integer> root = new BSTNode<>(8, 10, null);
+        BST<Integer> bst = new BST<>(root);
+        bst.AddKeyValue(4, 20);
+        bst.AddKeyValue(2, 300);
+        bst.AddKeyValue(6, 40);
+        bst.AddKeyValue(5, 100);
+
+        List<BSTNode<Integer>> res = new ArrayList<>();
+        res.add(bst.Root);
+        res.add(bst.Root.LeftChild);
+        res.add(bst.Root.LeftChild.LeftChild);
+
+        Assertions.assertEquals(res, bst.findMaxSumPath());
     }
 }
 
