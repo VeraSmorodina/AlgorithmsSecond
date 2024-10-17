@@ -264,4 +264,46 @@ public class test2 {
         int count = bst.Count();
         Assertions.assertEquals(0, count);
     }
+
+    @Test
+    public void isIdenticalTest1() {
+        BSTNode<Integer> root = new BSTNode<>(0, 0, null);
+        BST<Integer> bst = new BST<>(root);
+        bst.AddKeyValue(1,1);
+        bst.AddKeyValue(2,2);
+        bst.AddKeyValue(3, 3);
+        bst.AddKeyValue(4,4);
+
+
+        BSTNode<Integer> root1 = new BSTNode<>(0, 0, null);
+        BST<Integer> bst1 = new BST<>(root1);
+        bst1.AddKeyValue(1,1);
+        bst1.AddKeyValue(2,2);
+        bst1.AddKeyValue(3, 3);
+        bst1.AddKeyValue(4,4);
+
+        Assertions.assertTrue(bst.isIdentical(bst1));
+        Assertions.assertTrue(bst.isIdentical(bst));
+    }
+
+    @Test
+    public void isIdenticalTest2() {
+        BSTNode<Integer> root = new BSTNode<>(0, 0, null);
+        BST<Integer> bst = new BST<>(root);
+        bst.AddKeyValue(1,1);
+        bst.AddKeyValue(2,2);
+        bst.AddKeyValue(3, 3);
+        bst.AddKeyValue(4,4);
+
+
+        BSTNode<Integer> root1 = new BSTNode<>(0, 0, null);
+        BST<Integer> bst1 = new BST<>(root1);
+        bst1.AddKeyValue(1,1);
+        bst1.AddKeyValue(2,2);
+        bst1.AddKeyValue(3, 3);
+        bst1.AddKeyValue(5,5);
+
+        Assertions.assertFalse(bst.isIdentical(bst1));
+    }
 }
+

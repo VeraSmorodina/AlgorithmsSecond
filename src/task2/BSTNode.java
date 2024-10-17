@@ -1,3 +1,5 @@
+package task2;
+
 import java.util.*;
 
 public class BSTNode<T> {
@@ -167,5 +169,24 @@ class BST<T>
             getNodes(nodeList, currentNode.RightChild);
         }
         return nodeList;
+    }
+
+
+    public boolean isIdentical(BST<T> otherTree) {
+        return isIdentical(this.Root, otherTree.Root);
+    }
+
+    private boolean isIdentical(BSTNode<T> node1, BSTNode<T> node2) {
+        if (node1 == null && node2 == null) {
+            return true;
+        }
+        if (node1 == null || node2 == null) {
+            return false;
+        }
+        if (node1.NodeKey != node2.NodeKey || !node1.NodeValue.equals(node2.NodeValue)) {
+            return false;
+        }
+        return isIdentical(node1.LeftChild, node2.LeftChild) &&
+                isIdentical(node1.RightChild, node2.RightChild);
     }
 }
