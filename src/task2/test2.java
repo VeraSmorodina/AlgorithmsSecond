@@ -342,5 +342,61 @@ public class test2 {
 
         Assertions.assertEquals(res, bst.findMaxSumPath());
     }
+
+    @Test
+    public void wideNodesTest() {
+        BST<Integer> bst = new BST<>(new BSTNode<>(5, 0, null));
+        bst.AddKeyValue(0, 0);
+        bst.AddKeyValue(7, 0);
+        bst.AddKeyValue(3, 0);
+        bst.AddKeyValue(8, 0);
+        List<BSTNode> list = bst.WideAllNodes();
+        Assertions.assertEquals(5, list.get(0).NodeKey);
+        Assertions.assertEquals(0, list.get(1).NodeKey);
+        Assertions.assertEquals(7, list.get(2).NodeKey);
+        Assertions.assertEquals(3, list.get(3).NodeKey);
+        Assertions.assertEquals(8, list.get(4).NodeKey);
+    }
+
+    @Test
+    public void deepNodesPreOrderTest() {
+        BST<Integer> bst = new BST<>(new BSTNode<>(5, 0, null));
+        bst.AddKeyValue(0, 0);
+        bst.AddKeyValue(7, 0);
+        bst.AddKeyValue(3, 0);
+        bst.AddKeyValue(8, 0);
+        List<BSTNode> list = bst.DeepAllNodes(2);
+        Assertions.assertEquals(5, list.get(0).NodeKey);
+        Assertions.assertEquals(0, list.get(1).NodeKey);
+        Assertions.assertEquals(3, list.get(2).NodeKey);
+        Assertions.assertEquals(7, list.get(3).NodeKey);
+        Assertions.assertEquals(8, list.get(4).NodeKey);
+    }
+
+    @Test
+    public void deepNodesInOrderTest() {
+        BST<Integer> bst = new BST<>(new BSTNode<>(5, 0, null));
+        bst.AddKeyValue(0, 0);
+        bst.AddKeyValue(7, 0);
+        bst.AddKeyValue(3, 0);
+        bst.AddKeyValue(8, 0);
+        List<BSTNode> list = bst.DeepAllNodes(0);
+        Assertions.assertEquals(0, list.get(0).NodeKey);
+        Assertions.assertEquals(3, list.get(1).NodeKey);
+        Assertions.assertEquals(5, list.get(2).NodeKey);
+        Assertions.assertEquals(7, list.get(3).NodeKey);
+        Assertions.assertEquals(8, list.get(4).NodeKey);
+    }
+
+    @Test
+    public void deepNodesPostOrderTest() {
+        BST<Integer> bst = new BST<>(new BSTNode<>(5, 0, null));
+        bst.AddKeyValue(0, 0);
+        bst.AddKeyValue(7, 0);
+        List<BSTNode> list = bst.DeepAllNodes(1);
+        Assertions.assertEquals(0, list.get(0).NodeKey);
+        Assertions.assertEquals(7, list.get(1).NodeKey);
+        Assertions.assertEquals(5, list.get(2).NodeKey);
+    }
 }
 
