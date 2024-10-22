@@ -32,6 +32,7 @@ class BSTFind<T> {
 
 class BST<T> {
     BSTNode<T> Root;
+    private int levelMaxSum = -1;
 
     public BST(BSTNode<T> node) {
         Root = node;
@@ -254,26 +255,39 @@ class BST<T> {
 
 
     //    Урок 3
-//    Задание 1
+    //    Задание 1
     public List<BSTNode> WideAllNodes() {
         if (Root == null) return new ArrayList<>();
         List<BSTNode> nodeArrayList = new ArrayList<>();
-        LinkedList<BSTNode> queue = new LinkedList<>();
+        LinkedList<BSTNode<T>> queue = new LinkedList<>();
         queue.add(Root);
-        while (queue.size() > 0) {
-            BSTNode<T> tempNode = queue.get(0);
-            queue.remove(0);
-            nodeArrayList.add(tempNode);
-            if (tempNode.LeftChild != null) {
-                queue.add(tempNode.LeftChild);
+        int maxSum = Integer.MIN_VALUE;
+        int levelWithMaxSum = 0;
+        int currentLevel = 0;
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            int currentSum = 0;
+            for (int i = 0; i < levelSize; i++) {
+                BSTNode<T> tempNode = queue.poll();
+                nodeArrayList.add(tempNode);
+                currentSum += tempNode.NodeKey;
+                if (tempNode.LeftChild != null) {
+                    queue.add(tempNode.LeftChild);
+                }
+                if (tempNode.RightChild != null) {
+                    queue.add(tempNode.RightChild);
+                }
             }
-            if (tempNode.RightChild != null) {
-                queue.add(tempNode.RightChild);
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+                levelWithMaxSum = currentLevel;
             }
+            currentLevel++;
         }
+        levelMaxSum = levelWithMaxSum;
         return nodeArrayList;
     }
-
 
     // Задание 2
     public ArrayList<BSTNode> DeepAllNodes(int parameter) {
@@ -332,46 +346,19 @@ class BST<T> {
 
     // Задание 4
     public int maxLevelSum() {
-        if (Root == null)
-            return -1;
-        Queue<BSTNode<T>> queue = new LinkedList<>();
-        queue.add(Root);
-        int maxSum = Integer.MIN_VALUE;
-        int levelWithMaxSum = 0;
-        int currentLevel = 0;
+        WideAllNodes();
+        return levelMaxSum;
+    }
 
-        while (!queue.isEmpty()) {
-            int levelSize = queue.size();
-            int currentSum = 0;
 
-            for (int i = 0; i < levelSize; i++) {
-                BSTNode<T> currentNode = queue.poll();
-                currentSum += currentNode.NodeKey;
-                if (currentNode.LeftChild != null) {
-                    queue.add(currentNode.LeftChild);
-                }
-                if (currentNode.RightChild != null) {
-                    queue.add(currentNode.RightChild);
-                }
-            }
-            if (currentSum > maxSum) {
-                maxSum = currentSum;
-                levelWithMaxSum = currentLevel; // Обновляем уровень с максимальной суммой
-            }
-            currentLevel++;
+    //    Задание 5
+    public void buildTree(int[] preorder, int[] inorder) {
+        HashMap<Integer, Integer> inorderIndexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inorderIndexMap.put(inorder[i], i);
         }
-        return levelWithMaxSum;
+        Root = buildTreeHelper(preorder, 0, preorder.length - 1, 0, inorderIndexMap);
     }
-
-
-//    Задание 5
-public void buildTree(int[] preorder, int[] inorder) {
-    HashMap<Integer, Integer> inorderIndexMap = new HashMap<>();
-    for (int i = 0; i < inorder.length; i++) {
-        inorderIndexMap.put(inorder[i], i);
-    }
-    Root = buildTreeHelper(preorder, 0, preorder.length - 1, 0, inorderIndexMap);
-}
 
     private BSTNode<T> buildTreeHelper(int[] preorder, int preStart, int preEnd, int inStart,
                                        HashMap<Integer, Integer> inorderIndexMap) {
