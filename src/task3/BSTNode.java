@@ -1,8 +1,6 @@
-package task2;
-
 import java.util.*;
 
-public class BSTNode<T> {
+class BSTNode<T> {
     public int NodeKey;
     public T NodeValue;
     public BSTNode<T> Parent;
@@ -32,14 +30,15 @@ class BSTFind<T> {
 
 class BST<T> {
     BSTNode<T> Root;
-    private int levelMaxSum = -1;
 
     public BST(BSTNode<T> node) {
         Root = node;
     }
 
     public BSTFind<T> FindNodeByKey(int key) {
-        if (Root == null) return new BSTFind<>();
+        if (Root == null) {
+            return new BSTFind<>();
+        }
         return findNode(key, Root);
     }
 
@@ -113,7 +112,6 @@ class BST<T> {
         return findMax(nextNode);
     }
 
-
     public boolean DeleteNodeByKey(int key) {
         if (Root == null) return false;
         BSTFind<T> nodeForDelete = FindNodeByKey(key);
@@ -158,125 +156,22 @@ class BST<T> {
         return getNodes(new ArrayList<>(), Root).size();
     }
 
-    public List<BSTNode<T>> getNodes(List<BSTNode<T>> nodeList, BSTNode<T> currentNode) {
-        nodeList.add(currentNode);
-        if (currentNode.LeftChild == null && currentNode.RightChild == null) {
-            return nodeList;
-        }
-        if (currentNode.LeftChild != null) {
-            getNodes(nodeList, currentNode.LeftChild);
-        }
-        if (currentNode.RightChild != null) {
-            getNodes(nodeList, currentNode.RightChild);
-        }
-        return nodeList;
-    }
-
-    public boolean isIdentical(BST<T> otherTree) {
-        return isIdentical(this.Root, otherTree.Root);
-    }
-
-    private boolean isIdentical(BSTNode<T> node1, BSTNode<T> node2) {
-        if (node1 == null && node2 == null) {
-            return true;
-        }
-        if (node1 == null || node2 == null) {
-            return false;
-        }
-        if (node1.NodeKey != node2.NodeKey || !node1.NodeValue.equals(node2.NodeValue)) {
-            return false;
-        }
-        return isIdentical(node1.LeftChild, node2.LeftChild) &&
-                isIdentical(node1.RightChild, node2.RightChild);
-    }
-
-    public List<BSTNode<T>> findPathsOfLength(int length) {
-        List<BSTNode<T>> paths = new ArrayList<>();
-        findPathsOfLength(Root, new ArrayList<>(), paths, length);
-        return paths;
-    }
-
-    private void findPathsOfLength(BSTNode<T> currentNode, List<BSTNode<T>> currentPath,
-                                   List<BSTNode<T>> paths, int length) {
-        if (currentNode == null) return;
-        currentPath.add(currentNode);
-        if (currentNode.LeftChild == null && currentNode.RightChild == null && currentPath.size() == length) {
-            paths.addAll(new ArrayList<>(currentPath));
-        } else {
-            findPathsOfLength(currentNode.LeftChild, currentPath, paths, length);
-            findPathsOfLength(currentNode.RightChild, currentPath, paths, length);
-        }
-        currentPath.remove(currentPath.size() - 1);
-    }
-
-    public List<BSTNode<T>> findMaxSumPath() {
-        List<BSTNode<T>> maxPath = new ArrayList<>();
-        findMaxSumPath(Root, new ArrayList<>(), maxPath, 0);
-        return maxPath;
-    }
-
-    private void findMaxSumPath(BSTNode<T> currentNode, List<BSTNode<T>> currentPath,
-                                List<BSTNode<T>> maxPath, int currentSum) {
-        if (currentNode == null) return;
-        currentPath.add(currentNode);
-        if (currentNode.NodeValue instanceof Integer) {
-            currentSum += (Integer) currentNode.NodeValue;
-        } else {
-            currentSum += currentNode.NodeValue.hashCode();
-        }
-
-        if (currentNode.LeftChild == null && currentNode.RightChild == null && (maxPath.isEmpty() || currentSum > getCurrentMaxSum(maxPath))) {
-            maxPath.clear();
-            maxPath.addAll(new ArrayList<>(currentPath)); // Сохраняем новый путь
-        } else {
-            findMaxSumPath(currentNode.LeftChild, currentPath, maxPath, currentSum);
-            findMaxSumPath(currentNode.RightChild, currentPath, maxPath, currentSum);
-        }
-        currentPath.remove(currentPath.size() - 1);
-    }
-
-    private double getCurrentMaxSum(List<BSTNode<T>> path) {
-        double sum = 0;
-        for (BSTNode<T> node : path) {
-            if (node.NodeValue instanceof Integer) {
-                sum += (Integer) node.NodeValue;
-            } else {
-                sum += node.NodeValue.hashCode();
-            }
-        }
-        return sum;
-    }
-
-    public List<BSTNode> WideAllNodes() {
+    public ArrayList<BSTNode> WideAllNodes() {
         if (Root == null) return new ArrayList<>();
-        List<BSTNode> nodeArrayList = new ArrayList<>();
+        ArrayList<BSTNode> nodeArrayList = new ArrayList<>();
         LinkedList<BSTNode> queue = new LinkedList<>();
         queue.add(Root);
-        int maxSum = Integer.MIN_VALUE;
-        int levelWithMaxSum = 0;
-        int currentLevel = 0;
-
-        while (!queue.isEmpty()) {
-            int levelSize = queue.size();
-            int currentSum = 0;
-            for (int i = 0; i < levelSize; i++) {
-                BSTNode<T> tempNode = queue.poll();
-                nodeArrayList.add(tempNode);
-                currentSum += tempNode.NodeKey;
-                if (tempNode.LeftChild != null) {
-                    queue.add(tempNode.LeftChild);
-                }
-                if (tempNode.RightChild != null) {
-                    queue.add(tempNode.RightChild);
-                }
+        while (queue.size() > 0) {
+            var tempNode = queue.get(0);
+            queue.remove(0);
+            nodeArrayList.add(tempNode);
+            if (tempNode.LeftChild != null) {
+                queue.add(tempNode.LeftChild);
             }
-            if (currentSum > maxSum) {
-                maxSum = currentSum;
-                levelWithMaxSum = currentLevel;
+            if (tempNode.RightChild != null) {
+                queue.add(tempNode.RightChild);
             }
-            currentLevel++;
         }
-        levelMaxSum = levelWithMaxSum;
         return nodeArrayList;
     }
 
@@ -320,42 +215,18 @@ class BST<T> {
         return list;
     }
 
-    public void invertTree() {
-        Root = invertTree(Root);
-    }
-
-    private BSTNode<T> invertTree(BSTNode<T> node) {
-        if (node == null) return null;
-        BSTNode<T> left = invertTree(node.LeftChild);
-        BSTNode<T> right = invertTree(node.RightChild);
-        node.LeftChild = right;
-        node.RightChild = left;
-        return node;
-    }
-
-    public int maxLevelSum() {
-        WideAllNodes();
-        return levelMaxSum;
-    }
-
-    public void buildTree(int[] preorder, int[] inorder) {
-        HashMap<Integer, Integer> inorderIndexMap = new HashMap<>();
-        for (int i = 0; i < inorder.length; i++) {
-            inorderIndexMap.put(inorder[i], i);
+    public List<BSTNode<T>> getNodes(List<BSTNode<T>> nodeList, BSTNode<T> currentNode) {
+        nodeList.add(currentNode);
+        if (currentNode.LeftChild == null && currentNode.RightChild == null) {
+            return nodeList;
         }
-        Root = buildTreeHelper(preorder, 0, preorder.length - 1, 0, inorderIndexMap);
-    }
-
-    private BSTNode<T> buildTreeHelper(int[] preorder, int preStart, int preEnd, int inStart,
-                                       HashMap<Integer, Integer> inorderIndexMap) {
-        if (preStart > preEnd) return null;
-        int rootValue = preorder[preStart];
-        BSTNode<T> root = new BSTNode<>(rootValue, null, null);
-        int inRootIndex = inorderIndexMap.get(rootValue);
-        int leftSize = inRootIndex - inStart;
-        root.LeftChild = buildTreeHelper(preorder, preStart + 1, preStart + leftSize, inStart, inorderIndexMap);
-        root.RightChild = buildTreeHelper(preorder, preStart + leftSize + 1, preEnd, inRootIndex + 1, inorderIndexMap);
-        return root;
+        if (currentNode.LeftChild != null) {
+            getNodes(nodeList, currentNode.LeftChild);
+        }
+        if (currentNode.RightChild != null) {
+            getNodes(nodeList, currentNode.RightChild);
+        }
+        return nodeList;
     }
 }
 
