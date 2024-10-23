@@ -1,5 +1,3 @@
-package task2;
-
 import java.util.*;
 
 public class BSTNode<T> {
@@ -172,8 +170,6 @@ class BST<T> {
         return nodeList;
     }
 
-
-    //    Задание 1
     public boolean isIdentical(BST<T> otherTree) {
         return isIdentical(this.Root, otherTree.Root);
     }
@@ -192,7 +188,6 @@ class BST<T> {
                 isIdentical(node1.RightChild, node2.RightChild);
     }
 
-    //    Задание 2
     public List<BSTNode<T>> findPathsOfLength(int length) {
         List<BSTNode<T>> paths = new ArrayList<>();
         findPathsOfLength(Root, new ArrayList<>(), paths, length);
@@ -212,8 +207,6 @@ class BST<T> {
         currentPath.remove(currentPath.size() - 1);
     }
 
-
-    //    Задание 3
     public List<BSTNode<T>> findMaxSumPath() {
         List<BSTNode<T>> maxPath = new ArrayList<>();
         findMaxSumPath(Root, new ArrayList<>(), maxPath, 0);
@@ -240,7 +233,6 @@ class BST<T> {
         currentPath.remove(currentPath.size() - 1);
     }
 
-    // Метод для получения текущей максимальной суммы из пути
     private double getCurrentMaxSum(List<BSTNode<T>> path) {
         double sum = 0;
         for (BSTNode<T> node : path) {
@@ -253,9 +245,6 @@ class BST<T> {
         return sum;
     }
 
-
-    //    Урок 3
-    //    Задание 1
     public List<BSTNode> WideAllNodes() {
         if (Root == null) return new ArrayList<>();
         List<BSTNode> nodeArrayList = new ArrayList<>();
@@ -289,7 +278,6 @@ class BST<T> {
         return nodeArrayList;
     }
 
-    // Задание 2
     public ArrayList<BSTNode> DeepAllNodes(int parameter) {
         ArrayList<BSTNode> nodes = new ArrayList<>();
         switch (parameter) {
@@ -330,7 +318,6 @@ class BST<T> {
         return list;
     }
 
-    // Задание 3
     public void invertTree() {
         Root = invertTree(Root);
     }
@@ -344,14 +331,11 @@ class BST<T> {
         return node;
     }
 
-    // Задание 4
     public int maxLevelSum() {
         WideAllNodes();
         return levelMaxSum;
     }
 
-
-    //    Задание 5
     public void buildTree(int[] preorder, int[] inorder) {
         HashMap<Integer, Integer> inorderIndexMap = new HashMap<>();
         for (int i = 0; i < inorder.length; i++) {
@@ -372,3 +356,4 @@ class BST<T> {
         return root;
     }
 }
+
