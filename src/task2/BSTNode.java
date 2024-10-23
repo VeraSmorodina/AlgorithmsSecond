@@ -248,7 +248,7 @@ class BST<T> {
     public List<BSTNode> WideAllNodes() {
         if (Root == null) return new ArrayList<>();
         List<BSTNode> nodeArrayList = new ArrayList<>();
-        LinkedList<BSTNode<T>> queue = new LinkedList<>();
+        LinkedList<BSTNode> queue = new LinkedList<>();
         queue.add(Root);
         int maxSum = Integer.MIN_VALUE;
         int levelWithMaxSum = 0;
