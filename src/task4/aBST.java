@@ -1,3 +1,9 @@
+package task4;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 class aBST {
     public Integer Tree[];
 
@@ -61,5 +67,52 @@ class aBST {
         }
         return index;
     }
+
+//    Задание 2
+public Integer FindLCA(int key1, int key2) {
+    Integer index1 = FindKeyIndex(key1);
+    Integer index2 = FindKeyIndex(key2);
+    if (index1 == null || index2 == null) return null;
+
+    List<Integer> path1 = new ArrayList<>();
+    List<Integer> path2 = new ArrayList<>();
+
+    while (index1 >= 0) {
+        path1.add(index1);
+        index1 = (index1 - 1) / 2;
+    }
+
+    while (index2 != null) {
+        path2.add(index2);
+        index2 = (index2 - 1) / 2;
+    }
+
+    // Находим последний общий элемент в путях
+    Integer lcaIndex = null;
+
+    int minLeng = 0;
+    if (path1.size() >= path2.size())
+        minLeng = path1.size();
+    else {
+        minLeng = path2.size();
+    }
+    for (int i = minLeng - 1; i >= 0; i--) {
+        if (Objects.equals(path1.get(i), path2.get(i))){
+            lcaIndex = i;
+            break;
+        }
+    }
+//    for (int i = 0; i < Math.min(path1.size(), path2.size()); i++) {
+//        if (path1.get(path1.size() - 1 - i).equals(path2.get(path2.size() - 1 - i))) {
+//            lcaIndex = path1.get(path1.size() - 1 - i);
+//            break;
+//        }
+////        else {
+////            break;
+////        }
+//    }
+
+    return lcaIndex;
+}
 }
 

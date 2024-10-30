@@ -47,4 +47,53 @@ public class test4 {
         Assertions.assertEquals(2, index6);
     }
 
+
+
+
+    @Test
+    void testFindLCA() {
+        // Создаем бинарное дерево с глубиной 3
+        aBST bst = new aBST(3);
+        bst.AddKey(10); // Корень
+        bst.AddKey(5); // Левый дочерний узел корня
+        bst.AddKey(15); // Правый дочерний узел корня
+        bst.AddKey(3); // Левый дочерний узел узла 2
+        bst.AddKey(8); // Правый дочерний узел узла 2
+        bst.AddKey(13); // Левый дочерний узел узла 3
+        bst.AddKey(18); // Правый дочерний узел узла 3
+
+        Assertions.assertEquals(10, bst.FindLCA(5, 15));
+//        Assertions.assertEquals(1, bst.FindLCA(4, 6)); // LCA для 4 и 6 - это 1
+//        Assertions.assertEquals(3, bst.FindLCA(6, 7)); // LCA для 6 и 7 - это 3
+//        Assertions.assertEquals(1, bst.FindLCA(2, 3)); // LCA для 2 и 3 - это 1
+    }
+
+    @Test
+    void testFindLCAWithNonExistentNodes() {
+        // Создаем бинарное дерево с глубиной 3
+        aBST bst = new aBST(3);
+        bst.AddKey(1); // Корень
+        bst.AddKey(2); // Левый дочерний узел корня
+        bst.AddKey(3); // Правый дочерний узел корня
+        bst.AddKey(4); // Левый дочерний узел узла 2
+        bst.AddKey(5); // Правый дочерний узел узла 2
+        bst.AddKey(6); // Левый дочерний узел узла 3
+        bst.AddKey(7); // Правый дочерний узел узла 3
+
+        Assertions.assertNull(bst.FindLCA(8, 9)); // Узлы не существуют в дереве, результат должен быть null
+
+        Assertions.assertEquals(-1, bst.AddKey(8)); // Добавляем новый ключ и проверяем его добавление
+        Assertions.assertEquals(1, bst.FindLCA(1, 8)); // LCA для корня и нового узла должен быть корень (1)
+    }
+
+    @Test
+    void testFindLCAWithSameNode() {
+        // Создаем бинарное дерево с глубиной 3
+        aBST bst = new aBST(3);
+        bst.AddKey(1); // Корень
+        bst.AddKey(2); // Левый дочерний узел корня
+        bst.AddKey(3); // Правый дочерний узел корня
+
+        Assertions.assertEquals(4, bst.FindLCA(4, 4)); // LCA для одного и того же узла должен быть этот узел (4)
+    }
 }
