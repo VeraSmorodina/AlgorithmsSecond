@@ -148,4 +148,29 @@ public class BalancedBSTTest {
         root.LeftChild.LeftChild.Level = 2;
         Assertions.assertFalse(balancedBST.IsBalanced(root));
     }
+    @Test
+    public void test(){
+        BalancedBST balancedBST = new BalancedBST();
+        BSTNode root = new BSTNode(50, null);
+        root.Level = 0;
+        root.LeftChild = new BSTNode(25, root);
+        root.LeftChild.Level = 1;
+        root.RightChild = new BSTNode(75, root);
+        root.RightChild.Level = 1;
+        root.LeftChild.RightChild = new BSTNode(37, root);
+        root.LeftChild.RightChild.Level = 2;
+
+        root.LeftChild.RightChild.LeftChild = new BSTNode(26, root);
+        root.LeftChild.RightChild.Level = 3;
+        root.LeftChild.RightChild.RightChild = new BSTNode(38, root);
+        root.LeftChild.RightChild.Level = 3;
+
+        root.RightChild.LeftChild = new BSTNode(70, root);
+        root.RightChild.LeftChild.Level = 2;
+        root.RightChild.RightChild = new BSTNode(76, root);
+        root.RightChild.RightChild.Level = 2;
+
+
+        Assertions.assertFalse(balancedBST.IsBalanced(root));
+    }
 }
