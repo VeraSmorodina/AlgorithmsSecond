@@ -58,10 +58,6 @@ class BalancedBST {
                 queue.add(tempNode.RightChild);
             }
         }
-        return true;
-    }
-
-    public boolean isLevelsBalanced(BSTNode root_node) {
         int levelL = calculateLevel(root_node.LeftChild);
         int levelR = calculateLevel(root_node.RightChild);
         int k = levelR - levelL;
