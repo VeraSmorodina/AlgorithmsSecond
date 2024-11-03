@@ -1,5 +1,3 @@
-package task6;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -48,31 +46,30 @@ class BalancedBST {
         while (queue.size() > 0) {
             BSTNode tempNode = queue.get(0);
             queue.remove(0);
+            if (tempNode.LeftChild != null && tempNode.LeftChild.NodeKey >= tempNode.NodeKey) {
+                return false;
+            }
             if (tempNode.LeftChild != null) {
-                if (tempNode.LeftChild.NodeKey >= tempNode.NodeKey) return false;
                 queue.add(tempNode.LeftChild);
             }
+            if (tempNode.RightChild != null && tempNode.RightChild.NodeKey < tempNode.NodeKey) {
+                return false;
+            }
             if (tempNode.RightChild != null) {
-                if (tempNode.RightChild.NodeKey < tempNode.NodeKey) return false;
                 queue.add(tempNode.RightChild);
             }
         }
         return true;
-//        int levelL = calculateLevel(root_node.LeftChild);
-//        int levelR = calculateLevel(root_node.RightChild);
-//        int k = levelR - levelL;
-//        return k < 2 && k > -2;
     }
 
-
-    private boolean calculateLevel(BSTNode root_node) {
-        int levelL = calculateLevel1(root_node.LeftChild);
-        int levelR = calculateLevel1(root_node.RightChild);
+    public boolean isLevelsBalanced(BSTNode root_node) {
+        int levelL = calculateLevel(root_node.LeftChild);
+        int levelR = calculateLevel(root_node.RightChild);
         int k = levelR - levelL;
         return k < 2 && k > -2;
     }
 
-    private int calculateLevel1(BSTNode root_node) {
+    private int calculateLevel(BSTNode root_node) {
         if (root_node == null) return 0;
         int currentLevel = root_node.Level;
         LinkedList<BSTNode> queue = new LinkedList<>();
