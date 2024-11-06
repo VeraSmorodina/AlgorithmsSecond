@@ -1,5 +1,3 @@
-package task7;
-
 class Heap {
     public int[] HeapArray;
 
