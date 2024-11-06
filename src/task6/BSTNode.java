@@ -1,3 +1,5 @@
+package task6;
+
 import java.util.*;
 
 class BSTNode {
