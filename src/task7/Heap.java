@@ -56,9 +56,7 @@ class Heap {
             HeapArray[currentIndex] = temp;
             changeDown(rightChildIndex);
         }
-
     }
-
 
     public boolean Add(int key) {
         if (HeapArray[0] == 0) {
