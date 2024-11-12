@@ -1,7 +1,4 @@
-package task1;
-
 import java.util.*;
-
 
 class SimpleTreeNode<T> {
     public T NodeValue;
@@ -108,5 +105,33 @@ class SimpleTree<T> {
             count = getLeafsCount(count, node);
         }
         return count;
+    }
+
+    private List<SimpleTreeNode<T>> getNodes(List<SimpleTreeNode<T>> nodeList, SimpleTreeNode<T> currentNode) {
+        nodeList.add(currentNode);
+        if (currentNode.Children == null || currentNode.Children.size() == 0) {
+            return nodeList;
+        }
+        for (SimpleTreeNode<T> node : currentNode.Children) {
+            getNodes(nodeList, node);
+        }
+        return nodeList;
+    }
+
+    public ArrayList<T> EvenTrees() {
+        return evenTrees(Root, new ArrayList<>());
+    }
+
+    public ArrayList<T> evenTrees(SimpleTreeNode<T> element, ArrayList<T> resultNodes) {
+        if (element.Children == null) return resultNodes;
+        for (SimpleTreeNode<T> child : element.Children) {
+            int childrenCount = getNodes(new ArrayList<>(), child).size();
+            if (childrenCount % 2 == 0) {
+                resultNodes.add(element.NodeValue);
+                resultNodes.add(child.NodeValue);
+            }
+            evenTrees(child, resultNodes);
+        }
+        return resultNodes;
     }
 }

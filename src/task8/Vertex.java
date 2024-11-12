@@ -1,3 +1,5 @@
+package task8;
+
 class Vertex {
     public int Value;
 
