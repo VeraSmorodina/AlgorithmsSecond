@@ -1,14 +1,14 @@
-package task10;
-
 import java.util.*;
 
 class Vertex {
     public int Value;
     public boolean Hit;
+    public Vertex Parent;
 
     public Vertex(int val) {
         Value = val;
         Hit = false;
+        Parent = null;
     }
 }
 
@@ -108,5 +108,74 @@ class SimpleGraph {
             if (vertex[i].equals(vertex1)) return i;
         }
         return -1;
+    }
+
+    public ArrayList<Vertex> BreadthFirstSearch(int VFrom, int VTo) {
+        Queue<Vertex> queue = new Queue();
+        for (Vertex vertex1 : vertex) {
+            vertex1.Hit = false;
+        }
+        vertex[VFrom].Hit = true;
+        vertex[VFrom].Parent = null;
+        return breadthFirstSearch(null, VFrom, VTo, queue);
+    }
+
+    private ArrayList<Vertex> breadthFirstSearch(Integer parentIndex, int currentIndex, int VTo, Queue<Vertex> queue) {
+        if (parentIndex != null && vertex[currentIndex].Parent == null)
+            vertex[currentIndex].Parent = vertex[parentIndex];
+        ArrayList<Vertex> adjacents = findAdjacents(currentIndex);
+        Vertex notHitVertex = findNotHitAdjacent(adjacents);
+        if (notHitVertex == null && queue.size() == 0) {
+            return new ArrayList<>();
+        }
+        if (notHitVertex == null) {
+            parentIndex = currentIndex;
+            currentIndex = findIndexOfVertex(queue.dequeue());
+        } else if (notHitVertex.equals(vertex[VTo])) {
+            notHitVertex.Parent = vertex[currentIndex];
+            ArrayList<Vertex> path = createListFromParents(notHitVertex);
+            path.add(notHitVertex);
+            return path;
+        }
+        if (notHitVertex != null) {
+            notHitVertex.Hit = true;
+            queue.enqueue(notHitVertex);
+        }
+
+        return breadthFirstSearch(parentIndex, currentIndex, VTo, queue);
+    }
+
+    private ArrayList<Vertex> createListFromParents(Vertex vertex) {
+        ArrayList<Vertex> vertexArrayList = new ArrayList<>();
+        while (vertex.Parent != null) {
+            vertexArrayList.add(vertex.Parent);
+            vertex = vertex.Parent;
+        }
+        Collections.reverse(vertexArrayList);
+        return vertexArrayList;
+    }
+}
+
+class Queue<T> {
+
+    private final ArrayList<T> elements;
+
+    public Queue() {
+        elements = new ArrayList<>();
+    }
+
+    public void enqueue(T item) {
+        elements.add(0, item);
+    }
+
+    public T dequeue() {
+        if (size() == 0) return null;
+        T element = elements.get(elements.size() - 1);
+        elements.remove(element);
+        return element;
+    }
+
+    public int size() {
+        return elements.size();
     }
 }
