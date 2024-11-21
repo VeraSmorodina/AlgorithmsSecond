@@ -1,5 +1,3 @@
-package task11;
-
 import java.util.*;
 
 class Vertex {
