@@ -1,3 +1,5 @@
+package task11;
+
 import java.util.*;
 
 class Vertex {
@@ -154,6 +156,37 @@ class SimpleGraph {
         Collections.reverse(vertexArrayList);
         return vertexArrayList;
     }
+
+    public ArrayList<Vertex> WeakVertices() {
+        ArrayList<Vertex> vertexArrayList = new ArrayList<>();
+        for (int i = 0; i < max_vertex; i++) {
+            if (!compareAdjacents(findAdjacentIndices(i)))
+                vertexArrayList.add(vertex[i]);
+        }
+        return vertexArrayList;
+    }
+
+    private boolean compareAdjacents(ArrayList<Integer> adjacents) {
+        if (adjacents.size() < 2) return false;
+        for (int i1 = 0; i1 < adjacents.size(); i1++) {
+            for (Integer adjacent : adjacents) {
+                int currentIndexInMatrix = adjacents.get(i1);
+                int nextIndexInMatrix = adjacent;
+                if (IsEdge(currentIndexInMatrix, nextIndexInMatrix)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private ArrayList<Integer> findAdjacentIndices(int index) {
+        ArrayList<Integer> adjacents = new ArrayList<>();
+        for (int i = 0; i < max_vertex; i++) {
+            if (m_adjacency[index][i] == 1) adjacents.add(i);
+        }
+        return adjacents;
+    }
 }
 
 class Queue<T> {
@@ -179,3 +212,4 @@ class Queue<T> {
         return elements.size();
     }
 }
+
